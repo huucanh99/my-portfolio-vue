@@ -83,16 +83,28 @@
           </div>
         </div>
       </div>
+        <!-- === BLOCK BỊ THIẾU (thêm lại) === -->
+      <div class="after-title">
+        <div class="col-left">
+          <ArticlesList :items="articles" />
+        </div>
+        <div class="col-right">
+          <WorksCard :items="works" />
+        </div>
+      </div>
     </section>
   </template>
 
   <script setup>
   import { ref, onMounted, onUnmounted } from 'vue'
-
+  import ArticlesList from '@/components/home/ArticlesList.vue'
+  import WorksCard from '@/components/home/WorksCard.vue'
   import heroImg from '@/assets/images/homepage.jpg'
   import avatarImg from '@/assets/images/logo.png'
   import java from '@/assets/images/javascript.png'
   import { useI18n } from 'vue-i18n'
+  import fbLogo from '@/assets/images/facebook.png'
+  import twLogo from '@/assets/images/twitter.png'
   const { t } = useI18n()
   const hero = heroImg
   const avatar = avatarImg
@@ -125,7 +137,25 @@
     onScroll()
   })
   onUnmounted(() => window.removeEventListener('scroll', onScroll))
+  const articles = [
+  {
+    date: '7 May 2023',
+    title: 'The Benefits of Cloud Computing',
+    desc: 'Cloud computing offers a range of benefits, including cost savings and increased flexibility. Find out why more businesses are turning to the cloud.',
+    href: '#'
+  },
+  {
+    date: '7 May 2023',
+    title: 'Artificial Intelligence in Healthcare',
+    desc: 'AI is transforming the healthcare industry, from improving patient outcomes to streamlining operations. Discover the latest applications of this game-changing technology.',
+    href: '#'
+  }
+]
 
+  const works = [
+    { company: 'Facebook', role: 'Software Engineer', time: '2019 - Present', logo: fbLogo },
+    { company: 'Twitter',  role: 'Software Engineer', time: '2019 - Present', logo: twLogo },
+  ]
   // Social icons
   const icons = [
     { label: 'Twitter', href: 'https://twitter.com', icon: ['fab', 'twitter'] },
@@ -137,6 +167,15 @@
   </script>
 
   <style scoped>
+  .after-title{
+    display:grid;
+    grid-template-columns: minmax(0, 1fr) 520px;
+    gap: 36px;
+    margin-top: 24px;
+  }
+  @media (max-width: 1024px){
+    .after-title{ grid-template-columns: 1fr; }
+  }
   /* ================== NAV-related variables (dễ chỉnh) ================== */
   :root{
     --nav-top: 16px;       /* giống NAV_TOP */
@@ -234,6 +273,9 @@
   .project{
     height:100%; border-radius:20px; mix-blend-mode:normal; opacity:.8;
     transition: background-color .3s ease-in-out, opacity .2s ease-in-out;
+  }
+  .project:hover .project-link {
+    color: #10b981;
   }
   .project:hover{ background:#fafafa; opacity:1; }
   .project a{ text-decoration:none; color:inherit; }
