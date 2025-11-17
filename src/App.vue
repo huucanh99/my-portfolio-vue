@@ -1,16 +1,22 @@
 <template>
   <div id="app">
-    <NavBar />
-    <main class="app-main">
+    <NavBar v-if="showChrome" />
+    <main :class="['app-main', { 'with-nav': showChrome }]">
       <router-view />
     </main>
-    <Footer />
+    <Footer v-if="showChrome" />
   </div>
 </template>
 
 <script setup>
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import NavBar from '@/components/common/NavBar.vue'
 import Footer from '@/components/common/AppFooter.vue'
+
+const route = useRoute()
+// Ẩn Nav/Footer khi meta.hideChrome = true (ví dụ: /login, /dashboard)
+const showChrome = computed(() => !route.meta?.hideChrome)
 </script>
 
 <style>
@@ -26,8 +32,6 @@ body {
   color: var(--text);
   background: var(--bg);
 }
-.app-main{
-  /* chừa chỗ cho NavBar fixed trên cùng */
-  /* padding-top: 88px; khớp NAV_TOP(16) + NAV_H(40) + GAP(12) + buffer */
-}
+/* Nếu có NavBar fixed thì chừa đệm, còn khi ẩn Nav thì bỏ đệm */
+.app-main.with-nav { /* padding-top: 88px; */ }
 </style>
